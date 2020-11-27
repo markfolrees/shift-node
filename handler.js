@@ -1,5 +1,7 @@
 const handler = (event, context) => {
-  return event.body
+  const orders = JSON.parse(event.body)
+  
+  return orders
 }
 
 module.exports = handler
