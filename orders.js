@@ -1,14 +1,16 @@
 const processOrders = (body) => {
     const allOrders = JSON.parse(body)
-    const validOrders = allOrders.ORDERS.filter(validOrder())
+    const validOrders = allOrders.ORDERS.filter(isValid())
     validOrders.forEach(order => {
-        if(order.ORDER_LINES.every(({QUANTITY: quantity}) => quantity === '0')) { 
+        if (isCancelled(order)) { 
             order.TYPE = 'CANCEL'
         }
     })
     return {ORDERS: validOrders}
 }
 
-const validOrder = () => ({O_ID, OMS_ORDER_ID}) => O_ID === OMS_ORDER_ID
+const isValid = () => ({O_ID, OMS_ORDER_ID}) => O_ID === OMS_ORDER_ID
+
+const isCancelled = order => order.ORDER_LINES.every(({QUANTITY: quantity}) => quantity === '0')
 
 module.exports = processOrders
