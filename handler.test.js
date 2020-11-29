@@ -13,8 +13,8 @@ describe('handling valid data', () => {
   }
 
   let data;
-  beforeEach(() =>{
-    data = handler(event, context)
+  beforeEach(async () => {
+    data = await handler(event, context)
   })
   
   describe('Parses the event data into JSON', () => {
@@ -35,8 +35,8 @@ describe('handling valid data', () => {
     })
 
     it('removes invalid order where IDs do not match', () => {
-      const { ORDERS: order } = data
-      expect(order.find(o => o.O_ID === '50022251')).toBeUndefined()
+      const { ORDERS: orders } = data
+      expect(orders.find(o => o.O_ID === '50022251')).toBeUndefined()
     })
 
     it('creates cancellation', () => {
@@ -58,8 +58,8 @@ describe('handling invalid JSON', () => {
 
   let data;
 
-  beforeEach(() => {
-    data = handler(event, context)
+  beforeEach(async () => {
+    data = await handler(event, context)
   })
 
   it('returns an error response', () => {
