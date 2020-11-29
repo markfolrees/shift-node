@@ -1,7 +1,13 @@
-const handler = (event, context) => {
-  const orders = JSON.parse(event.body)
+const handler = ({body}, context) => {
+  const orders = processOrders(body)
   
-  return orders
+  return {ORDERS: orders}
 }
 
 module.exports = handler
+const processOrders = (body) => {
+  const allOrders = JSON.parse(body)
+  
+  return allOrders.ORDERS.filter(o => o.O_ID === o.OMS_ORDER_ID)
+}
+

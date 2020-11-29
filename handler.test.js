@@ -14,19 +14,24 @@ describe('Handler', () => {
   let data;
   beforeEach(() =>{
     data = handler(event, context)
-  });
+  })
   
   describe('Parses the event data into JSON', () => {
    
     
-    it('has three orders', () => {
+    it('has two orders', () => {
       const { ORDERS: orders } = data
-      expect(orders.length).toEqual(3)
-    });
+      expect(orders.length).toEqual(2)
+    })
 
     it('has order 12345', () => {
       const { ORDERS: [order] } = data
       expect(order.O_ID).toEqual('12345')
+    })
+
+    it('removes invalid order', () => {
+      const { ORDERS: order } = data
+      expect(order.find(o => o.O_ID === '50022251')).toBeUndefined()
     })
   })
 })
