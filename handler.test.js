@@ -29,6 +29,11 @@ describe('Handler', () => {
       expect(order.O_ID).toEqual('12345')
     })
 
+    it('creates fulfilment', () => {
+      const { ORDERS: [order] } = data
+      expect(order.TYPE).toEqual('FULFIL')
+    })
+
     it('removes invalid order where IDs do not match', () => {
       const { ORDERS: order } = data
       expect(order.find(o => o.O_ID === '50022251')).toBeUndefined()

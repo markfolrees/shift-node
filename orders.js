@@ -4,6 +4,8 @@ const processOrders = (body) => {
     validOrders.forEach(order => {
         if (isCancelled(order)) { 
             order.TYPE = 'CANCEL'
+        } else {
+            order.TYPE = 'FULFIL'
         }
     })
     return {ORDERS: validOrders}
