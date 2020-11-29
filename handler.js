@@ -1,9 +1,5 @@
 const processOrders = require('./orders')
 
-const handler = ({body}, context) => {
-  const orders = processOrders(body)
-  
-  return {ORDERS: orders}
-}
+const handler = ({body}, context) => processOrders(body)
 
 module.exports = handler
