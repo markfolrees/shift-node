@@ -1,15 +1,16 @@
 const fs = require('fs')
 const handler = require('./handler')
 
-const event = {
-  body: fs.readFileSync('./fixtures/shipments.json', 'utf8')
-}
 
-const context = {
-  accountReference: 'acme'
-}
+describe('handling valid data', () => {
 
-describe('Handler', () => {
+  const event = {
+    body: fs.readFileSync('./fixtures/shipments.json', 'utf8')
+  }
+
+  const context = {
+    accountReference: 'acme'
+  }
 
   let data;
   beforeEach(() =>{
@@ -18,7 +19,6 @@ describe('Handler', () => {
   
   describe('Parses the event data into JSON', () => {
    
-    
     it('has two orders', () => {
       const { ORDERS: orders } = data
       expect(orders.length).toEqual(2)
@@ -44,4 +44,26 @@ describe('Handler', () => {
       expect(order.TYPE).toEqual('CANCEL')
     })
   })
+})
+
+describe('handling invalid JSON', () => {
+
+  const event = {
+    body: fs.readFileSync('./fixtures/notJson.json', 'utf8')
+  }
+
+  const context = {
+    accountReference: 'acme'
+  }
+
+  let data;
+
+  beforeEach(() => {
+    data = handler(event, context)
+  })
+
+  it('returns an error response', () => {
+    expect(data.error).toEqual('invalid JSON input')
+  })
+
 })
