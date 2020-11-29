@@ -34,6 +34,9 @@ describe('Handler', () => {
       expect(order.find(o => o.O_ID === '50022251')).toBeUndefined()
     })
 
-  
+    it('creates cancellation', () => {
+      const { ORDERS: [, order] } = data
+      expect(order.TYPE).toEqual('CANCEL')
+    })
   })
 })
